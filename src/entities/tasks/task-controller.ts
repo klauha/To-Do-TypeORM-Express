@@ -105,3 +105,43 @@ export const deleteTask = async (req: Request, res: Response) => {
         )
     }
 }
+
+ export const updateTask = async (req:Request, res:Response) =>{
+
+    const taskId = req.params.id
+    const { title, description, isCompleted } = req.body
+
+    try {
+        const taskToUpdate = await Task.findOneBy(          
+            {
+                id: parseInt(taskId)
+            }
+        )                   
+        if (!taskToUpdate) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Task not found to update"
+                }
+            )
+        }   
+        taskToUpdate.title = title      
+        taskToUpdate.description = description
+        taskToUpdate.isCompleted = isCompleted
+        await taskToUpdate.save()
+        res.status(201).json(
+            {
+                success: true,
+                message: "Task updated successfully"
+            }
+        )
+
+    } catch (error) {
+        res.status(500).json(
+            {
+                success: false,
+                message: "Task can't be updated"
+            }
+        )
+    }
+ }
