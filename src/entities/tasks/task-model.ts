@@ -11,6 +11,9 @@ export class Task extends BaseEntity {
 
     @Column({ type: "text", nullable: false })
     description!: string;
+    
+    @Column({ type: "boolean", default: false })
+    isCompleted!: boolean;
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     created_at!: Date;

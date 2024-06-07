@@ -25,6 +25,11 @@ export class Task1717748545556 implements MigrationInterface {
                         isNullable: true,
                     },
                     {
+                        name: "isCompleted",
+                        type: "boolean",
+                        isNullable: true,
+                    },
+                    {
                         name: "created_at",
                         type: "timestamp",
                         default: "now()",
