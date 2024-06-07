@@ -62,8 +62,46 @@ export const getTasks = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message:"Tasks can't be retrieved",
+            message: "Tasks can't be retrieved",
         })
 
+    }
+}
+
+export const deleteTask = async (req: Request, res: Response) => {
+    try {
+
+        const taskId = req.params.id
+        const taskToDelete = await Task.findOneBy(
+            {
+                id: parseInt(taskId)
+            },
+        )
+
+        if (!taskToDelete) {
+            return res.status(404).json({
+                success: false,
+                message: "Task not found to delete on DB"
+            })
+        }
+        await Task.delete(
+            {
+                id: parseInt(taskId)
+            },
+        )
+        res.status(201).json(
+            {
+                success: true,
+                message: "Task deleted successfully"
+            }
+        )
+
+    } catch (error) {
+        res.status(500).json(
+            {
+                success: false,
+                message: "cant delete Task"
+            }
+        )
     }
 }
